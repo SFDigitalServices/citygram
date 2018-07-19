@@ -36,12 +36,12 @@ jobs:
       before_install: skip
       install: skip
       script:
-        - docker build -f docker/citygram/Dockerfile -t citygram/citygram .
+        - docker build -f docker/citygram/Dockerfile -t ${DOCKER_IMAGE-citygram/citygram} .
       deploy: # needs to be part of this step to have access to the built images
         provider: script
         script:
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          - docker push citygram/citygram
+          - docker push ${DOCKER_IMAGE-citygram/citygram}
         on:
           branch: master
           condition: "$DOCKER_PASSWORD != '' && $DOCKER_USERNAME != ''"
